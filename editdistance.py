@@ -24,10 +24,12 @@ class EditDistance():
 					editM[j][i] = i
 				else:
 					if str1[i-1] == str2[j-1]:
-						mismatch = 0
+						temp = 0
 					else:
-						mismatch = 1
-					editM[j][i] = min(editM[j][i-1]+1, editM[j-1][i]+1, editM[j-1][i-1]+mismatch)
+						temp = 1
+					editM[j][i] = min(editM[j][i-1]+1, #deletion
+									  editM[j-1][i]+1, #insertion
+									  editM[j-1][i-1]+temp) #substitution
 
 		return editM[len(str2)][len(str1)]
 
@@ -38,7 +40,32 @@ class EditDistance():
 			take two strings and calculate their OSA Distance for task 2 
 			return an integer which is the distance
 		"""
-		raise NotImplementedError
+		editM = [[0 for i in range(len(str1)+1)] for j in range(len(str2)+1)]
+		for i in range(len(str1)+1):
+			for j in range(len(str2)+1):
+				if i == 0 and j == 0:
+					editM[j][i] = 0
+				elif i == 0 and j > 0:
+					editM[j][i] = j
+				elif i > 0 and j == 0:
+					editM[j][i] = i
+				else: # i >= 1, j >= 1
+					if str1[i-1] == str2[j-1]:
+						temp = 0
+					else:
+						temp = 1
+
+					if str1[i-2] == str2[j-1] and str1[i-1] == str2[j-2]:
+						editM[j][i] = min(editM[j][i-1]+1, #deletion
+									  editM[j-1][i]+1, #insertion
+									  editM[j-1][i-1]+temp, #substitution
+									  editM[j-2][i-2]+1) # transposition
+					else: 
+						editM[j][i] = min(editM[j][i-1]+1, #deletion
+										  editM[j-1][i]+1, #insertion
+										  editM[j-1][i-1]+temp) # substitution
+
+		return editM[len(str2)][len(str1)]
 
 		
 	def calculateDLDistance(self, str1, str2):
@@ -47,9 +74,29 @@ class EditDistance():
 			take two strings and calculate their DL Distance for task 3 
 			return an integer which is the distance
 		"""
-		raise NotImplementedError
+		
+		# right now it's identical to task 1, no change yet! 
+		editM = [[0 for i in range(len(str1)+1)] for j in range(len(str2)+1)]
+		for i in range(len(str1)+1):
+			for j in range(len(str2)+1):
+				if i == 0 and j == 0:
+					editM[j][i] = 0
+				elif i == 0 and j > 0:
+					editM[j][i] = j
+				elif i > 0 and j == 0:
+					editM[j][i] = i
+				else: # i >= 1, j >= 1
+					if str1[i-1] == str2[j-1]:
+						temp = 0
+					else:
+						temp = 1
+
+					editM[j][i] = min(editM[j][i-1]+1, #deletion
+									  editM[j-1][i]+1, #insertion
+									  editM[j-1][i-1]+temp) #substitution
+
+		return editM[len(str2)][len(str1)]
 
 
+#ed = EditDistance()
 
-ed = EditDistance()
-print(ed.calculateLevenshteinDistance("colleg", "college"))
