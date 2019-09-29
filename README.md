@@ -1,1 +1,1 @@
-# Levenshtein-Distance-and-Optimal-String-Alignment-Distance
+# Levenshtein-and-Optimal-String-Alignment-Distance
