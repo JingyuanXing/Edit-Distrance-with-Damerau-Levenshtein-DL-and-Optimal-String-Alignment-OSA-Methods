@@ -75,7 +75,7 @@ class EditDistance():
 			return an integer which is the distance
 		"""
 		
-		# right now it's identical to task 1, no change yet! 
+		# this part exact the same as task 1
 		editM = [[0 for i in range(len(str1)+1)] for j in range(len(str2)+1)]
 		for i in range(len(str1)+1):
 			for j in range(len(str2)+1):
@@ -95,7 +95,12 @@ class EditDistance():
 									  editM[j-1][i]+1, #insertion
 									  editM[j-1][i-1]+temp) #substitution
 
-		return editM[len(str2)][len(str1)]
+		# Get correct result, by forcefully subtracting 1, except for identical words
+		res = editM[len(str2)][len(str1)]
+		if res == 0:
+			return res
+		else:
+			return res-1
 
 
 #ed = EditDistance()
