@@ -1,5 +1,37 @@
 #!/usr/bin/python
 
+def calculateOSADistance(raw, dic):
+		"""
+			take two strings and calculate their OSA Distance for task 2 
+			return an integer which is the distance
+		"""
+		editM = [[0 for i in range(len(raw)+1)] for j in range(dic)+1)]
+		for i in range(len(raw)+1):
+			for j in range(len(dic)+1):
+				if i == 0 and j == 0:
+					editM[j][i] = 0
+				elif i == 0 and j > 0:
+					editM[j][i] = j
+				elif i > 0 and j == 0:
+					editM[j][i] = i
+				else: # i >= 1, j >= 1
+					if raw[i-1] == dic[j-1]:
+						temp = 0
+					else:
+						temp = 1
+
+					if raw[i-2] == dic[j-1] and raw[i-1] == dic[j-2]:
+						editM[j][i] = min(editM[j][i-1]+1, #deletion
+									  editM[j-1][i]+1, #insertion
+									  editM[j-1][i-1]+temp, #substitution
+									  editM[j-2][i-2]+1) # transposition
+					else: 
+						editM[j][i] = min(editM[j][i-1]+1, #deletion
+										  editM[j-1][i]+1, #insertion
+										  editM[j-1][i-1]+temp) # substitution
+
+		return editM[len(dic)][len(raw)]
+
 def task4(dictionary, raw):
 	"""
 	TODO:
@@ -10,5 +42,16 @@ def task4(dictionary, raw):
 		compared with words in the dictonary 
 	example return result : [0,1,0,2]
 	"""
-	raise NotImplementedError
-	
+	result = []
+	for word in raw:
+		editD = len(word)
+		for dic in dictionary:
+			editD = min(editD, calculateOSADistance(word, dic))
+		result.append(editD)
+
+	return result
+
+task4('dictionary.txt', 'raw.txt')
+
+
+
