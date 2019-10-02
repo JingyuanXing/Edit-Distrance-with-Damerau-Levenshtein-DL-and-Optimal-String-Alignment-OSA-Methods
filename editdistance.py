@@ -9,7 +9,6 @@ class EditDistance():
 	
 	def calculateLevenshteinDistance(self, str1, str2):
 		"""
-		TODO:
 			take two strings and calculate their Levenshtein Distance for task 1 
 			return an integer which is the distance
 		"""
@@ -36,7 +35,6 @@ class EditDistance():
 		
 	def calculateOSADistance(self, str1, str2):
 		"""
-		TODO:
 			take two strings and calculate their OSA Distance for task 2 
 			return an integer which is the distance
 		"""
@@ -70,7 +68,6 @@ class EditDistance():
 		
 	def calculateDLDistance(self, str1, str2):
 		"""
-		TODO:
 			take two strings and calculate their DL Distance for task 3 
 			return an integer which is the distance
 		"""
