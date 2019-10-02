@@ -5,7 +5,7 @@ def calculateOSADistance(raw, dic):
 			take two strings and calculate their OSA Distance for task 2 
 			return an integer which is the distance
 		"""
-		editM = [[0 for i in range(len(raw)+1)] for j in range(dic)+1)]
+		editM = [[0 for i in range(len(raw)+1)] for j in range(len(dic)+1)]
 		for i in range(len(raw)+1):
 			for j in range(len(dic)+1):
 				if i == 0 and j == 0:
@@ -42,16 +42,24 @@ def task4(dictionary, raw):
 		compared with words in the dictonary 
 	example return result : [0,1,0,2]
 	"""
+	with open(raw) as r:
+		rawContent = r.readlines()
+	rawContent = [x.strip() for x in rawContent]
+	with open(dictionary) as d:
+		dictionaryContent = d.readlines()
+	dictionaryContent = [x.strip() for x in dictionaryContent]
+	
 	result = []
-	for word in raw:
+	for word in rawContent:
 		editD = len(word)
-		for dic in dictionary:
+		for dic in dictionaryContent:
 			editD = min(editD, calculateOSADistance(word, dic))
 		result.append(editD)
+		print(result)
 
 	return result
 
-task4('dictionary.txt', 'raw.txt')
+# task4('dictionary.txt', 'raw.txt')
 
 
 
