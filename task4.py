@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+
 class TrieNode():
 
 	def __init__(self):
@@ -37,17 +38,21 @@ class Trie():
 			# change current_at to look at it's children (the list of 26 cells)
 			current_at = current_at.children[index]
 		# mark last node as leaf, when finished with this word from dictionary
-		current_at.isEndOfWord = True
+		current_at.endOfWord = True
 
 	def updateNode(self, word_raw):
 		# start to look down the Trie from root
 		current_at = self.root
 		# initialize the first row
+		current_at.editRow = []
 		current_at.editRow.append([i for i in range(len(word_raw)+1)])
 		# loop through each character of the word from raw data
+		
+
 		for ch_position in range(len(word_raw)):
 			index = self.charToIndex(word_raw[ch_position])
-			# print(word_raw[ch_position])
+			print(current_at.editRow)
+			print(word_raw[ch_position])
 
 			# if None, meaning the current character does not match the dictionary structure 
 			if current_at.children[index] == None:
@@ -64,11 +69,14 @@ class Trie():
 				current_at.editRow[-1][ch_position+1] = min(current_at.editRow[-1][ch_position-1]+1,
 					                                        current_at.editRow[-2][ch_position]+1,
 					                                        current_at.editRow[-2][ch_position-1]+current_at.temp)
-			# print(current_at.editRow)
 
 			# change current_at to look at it's children (the list of 26 cells)
-			current_at.children[index].editRow = current_at.editRow
-			current_at = current_at.children[index]
+			try:
+				current_at.children[index].editRow = current_at.editRow
+				current_at = current_at.children[index]
+			except:
+				continue
+
 		editD = current_at.editRow[-1][-1]
 		return editD
 
@@ -135,6 +143,7 @@ def task4(dictionary, raw):
 		# put current raw word into the Trie,
 		# build one row of the matrix at each node of the Trie, corresponding to this raw word (inside the Trie)
 		# build edit distance here, by puting the rows into a matrix
+		print("DDDDD")
 		print(word_raw)
 		editD = tr.updateNode(word_raw)
 		result.append(editD)
