@@ -40,6 +40,21 @@ class Trie():
 		# mark last node as leaf, when finished with this word from dictionary
 		current_at.endOfWord = True
 
+
+	def additionalDepth(self, current_at):
+		if current_at.endOfWord == True:
+			print("here")
+			return 0
+		compareList = []
+		for i in range(len(current_at.children)):
+			if current_at.children[i] != None:
+				print(current_at.children[i])
+				n = 1 + self.additionalDepth(current_at.children[i])
+				compareList.append(n)
+		result = min(compareList)
+
+		return result
+
 	def updateNode(self, word_raw):
 		# start to look down the Trie from root
 		current_at = self.root
@@ -48,7 +63,7 @@ class Trie():
 		current_at.editRow.append([i for i in range(len(word_raw)+1)])
 		# loop through each character of the word from raw data
 		
-
+		additional_length = 0
 		for ch_position in range(len(word_raw)):
 			index = self.charToIndex(word_raw[ch_position])
 			print(current_at.editRow)
@@ -67,7 +82,6 @@ class Trie():
 			# initialize first column of each row
 			current_at.editRow[-1][0] = ch_position+1
 			for ch_position in range(len(word_raw)):
-				print("ch_pos: ", ch_position)
 				current_at.editRow[-1][ch_position+1] = min(current_at.editRow[-1][ch_position]+1,
 					                                        current_at.editRow[-2][ch_position+1]+1,
 					                                        current_at.editRow[-2][ch_position]+current_at.temp)
@@ -79,7 +93,9 @@ class Trie():
 			except:
 				continue
 
-		editD = current_at.editRow[-1][-1]
+		additional_length = self.additionalDepth(current_at)
+
+		editD = current_at.editRow[-1][-1] + additional_length
 		return editD
 
 
