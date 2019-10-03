@@ -60,15 +60,17 @@ class Trie():
 			# the current character IS a match
 			else:
 				current_at.temp = 0
+			print("temp: ", current_at.temp)
 
 			# add a row
 			current_at.editRow.append([0 for i in range(len(word_raw)+1)])
 			# initialize first column of each row
 			current_at.editRow[-1][0] = ch_position+1
 			for ch_position in range(len(word_raw)):
-				current_at.editRow[-1][ch_position+1] = min(current_at.editRow[-1][ch_position-1]+1,
-					                                        current_at.editRow[-2][ch_position]+1,
-					                                        current_at.editRow[-2][ch_position-1]+current_at.temp)
+				print("ch_pos: ", ch_position)
+				current_at.editRow[-1][ch_position+1] = min(current_at.editRow[-1][ch_position]+1,
+					                                        current_at.editRow[-2][ch_position+1]+1,
+					                                        current_at.editRow[-2][ch_position]+current_at.temp)
 
 			# change current_at to look at it's children (the list of 26 cells)
 			try:
