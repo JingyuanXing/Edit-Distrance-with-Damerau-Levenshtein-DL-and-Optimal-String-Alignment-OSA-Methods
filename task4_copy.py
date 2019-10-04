@@ -51,11 +51,13 @@ def task4(dictionary, raw):
 	
 	result = []
 	for word in rawContent:
+		
 		editD = len(word)
 		for dic in dictionaryContent:
+			print(calculateOSADistance(word, dic))
 			editD = min(editD, calculateOSADistance(word, dic))
 		result.append(editD)
-		print(result)
+		# print(result)
 
 	return result
 

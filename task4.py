@@ -43,7 +43,6 @@ class Trie():
 
 	def additionalDepth(self, current_at):
 		if current_at.endOfWord == True:
-			print("here")
 			return 0
 		compareList = []
 		for i in range(len(current_at.children)):
@@ -66,8 +65,8 @@ class Trie():
 		additional_length = 0
 		for ch_position in range(len(word_raw)):
 			index = self.charToIndex(word_raw[ch_position])
-			print(current_at.editRow)
-			print(word_raw[ch_position])
+			# print(current_at.editRow)
+			# print(word_raw[ch_position])
 
 			# if None, meaning the current character does not match the dictionary structure 
 			if current_at.children[index] == None:
@@ -75,7 +74,6 @@ class Trie():
 			# the current character IS a match
 			else:
 				current_at.temp = 0
-			print("temp: ", current_at.temp)
 
 			# add a row
 			current_at.editRow.append([0 for i in range(len(word_raw)+1)])
@@ -97,7 +95,6 @@ class Trie():
 
 		editD = current_at.editRow[-1][-1] + additional_length
 		return editD
-
 
 def calculateOSADistance(raw, dic):
 		"""
@@ -161,15 +158,16 @@ def task4(dictionary, raw):
 		# put current raw word into the Trie,
 		# build one row of the matrix at each node of the Trie, corresponding to this raw word (inside the Trie)
 		# build edit distance here, by puting the rows into a matrix
-		print("DDDDD")
-		print(word_raw)
-		editD = tr.updateNode(word_raw)
-		result.append(editD)
-		print(result)
+		editOSA = len(word_raw)
+		editTr = tr.updateNode(word_raw)
+		for word_dict in dictionaryContent:
+			editOSA = min(editOSA, calculateOSADistance(word_raw, word_dict))
+		result.append(min(editOSA, editTr))
+		# print(result)
 
 	return result
 
-task4('dictionary.txt', 'raw.txt')
+# task4('dictionary.txt', 'raw.txt')
 
 
 
